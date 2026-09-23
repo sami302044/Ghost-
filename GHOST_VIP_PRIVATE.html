@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GHOST VIP</title>
+<meta name="description" content="GHOST VIP private visual simulation">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#241044 0,#090812 42%,#05060a 100%);color:#fff;font-family:Arial,sans-serif}
+header{height:72px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2c2639;background:#08090edb;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:10px}.brandIcon{font-size:30px}.brand b{display:block;letter-spacing:4px}.brand small{color:#88808f;font-size:8px;letter-spacing:2px}
+.badge{font-size:9px;border:1px solid #3a3246;border-radius:20px;padding:7px 10px;color:#b4acbd}
+.badge i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#55ed91;box-shadow:0 0 9px #55ed91;margin-right:5px}
+.page{min-height:calc(100vh - 72px);padding:25px 16px 80px}.hidden{display:none!important}
+.card{max-width:620px;margin:45px auto;background:#0d0e15;border:1px solid #2d2738;border-radius:24px;padding:28px;box-shadow:0 25px 80px #0009}
+.center{text-align:center}
+.glogo{width:78px;height:78px;margin:auto;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,#a45cff,#3b1282);box-shadow:0 0 55px #873eff55;font-size:34px;font-weight:900}
+h1{letter-spacing:6px;margin:18px 0 6px}h1 span{color:#a75cff}
+p{color:#9891a2;font-size:12px}
+.notice{padding:11px;border:1px solid #42364d;background:#130f1b;border-radius:12px;color:#aaa2b2;font-size:10px;margin:18px 0}
+.google{width:100%;padding:14px;border-radius:12px;border:1px solid #554b60;background:#fff;color:#15121b;font-weight:700;cursor:pointer;font-size:14px}
+.owner{margin-top:12px;color:#777180;font-size:9px}
+.denied{color:#ff7f9d;background:#29111b;border:1px solid #61283b;padding:12px;border-radius:12px;font-size:11px;margin-top:15px}
+#app{display:none}
+.hero{text-align:center;padding:20px 0 28px}.hero h2{font-size:25px;letter-spacing:3px}.hero b{color:#a75cff}
+.grid{max-width:850px;margin:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.platform{min-height:105px;border:1px solid #2b2637;border-radius:18px;background:linear-gradient(145deg,#12121c,#0b0c12);color:#fff;cursor:pointer;font-size:14px;transition:.2s}
+.platform:hover{transform:translateY(-3px);border-color:#8a4de6}
+.icon{width:45px;height:45px;margin:0 auto 10px;border-radius:13px;background:#211a2c;display:grid;place-items:center;font-size:20px}
+.panel{max-width:600px;margin:25px auto;background:#0d0e15;border:1px solid #2d2738;border-radius:23px;padding:26px}
+.back{background:none;border:0;color:#aa7aff;cursor:pointer;margin-bottom:12px}
+.bigicon{width:65px;height:65px;margin:auto;border-radius:19px;background:#21192d;display:grid;place-items:center;font-size:28px}
+.panel h2{text-align:center}.label{display:block;margin-top:22px;margin-bottom:8px;color:#bbb3c4;font-size:11px}
+input{width:100%;padding:14px;border-radius:12px;border:1px solid #352d40;background:#07080d;color:#fff;outline:none}
+.action{width:100%;padding:15px;margin-top:17px;border:0;border-radius:13px;background:linear-gradient(90deg,#7138e3,#a853ff);color:#fff;font-weight:800;cursor:pointer}
+.scanner{text-align:center;max-width:620px;margin:25px auto;background:#0d0e15;border:1px solid #2d2738;border-radius:23px;padding:28px}
+.ring{width:145px;height:145px;margin:24px auto 17px;border-radius:50%;display:grid;place-items:center;border:7px solid #251d31;box-shadow:inset 0 0 35px #000,0 0 35px #813ee52b}
+.ring strong{font-size:25px;color:#c18aff}.progress{height:7px;background:#211c29;border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#7035df,#bd70ff)}
+.timer{font:20px monospace;margin:14px;color:#c8bed3}
+.terminal{height:155px;overflow:hidden;padding:12px;text-align:left;border-radius:12px;border:1px solid #231e2b;background:#07080c;color:#83a992;font:10px/1.7 monospace}
+.media{margin-top:14px;text-align:left;border:1px solid #282231;border-radius:14px;padding:12px;background:#090a10}
+.mediaRow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #201c28;font-size:10px;color:#bbb2c4}.mediaRow:last-child{border-bottom:0}
+.result{max-width:620px;margin:25px auto;background:#0d0e15;border:1px solid #2d2738;border-radius:23px;padding:28px;text-align:center}.success{font-size:45px;color:#5dffa0}
+.fakevideo{height:190px;margin:20px 0;border-radius:16px;background:linear-gradient(135deg,#18111f,#08090e);display:grid;place-items:center;border:1px solid #30263a;position:relative;overflow:hidden}
+.play{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#9d50f0;font-size:26px;box-shadow:0 0 35px #a34cff55}
+.fakevideo small{position:absolute;bottom:10px;left:12px;color:#bfb4c9;font-size:9px}
+footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:10px;background:#08080de8;border-top:1px solid #211d29;color:#625d6c;font-size:8px;letter-spacing:1px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}} 
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span class="brandIcon">👻</span><div><b>GHOST</b><small>VIP PRIVATE</small></div></div>
+  <div class="badge"><i></i> OWNER ACCESS</div>
+</header>
+
+<section id="gate" class="page">
+  <div class="card center">
+    <div class="glogo">G</div>
+    <h1>GHOST <span>VIP</span></h1>
+    <p>Private visual-simulation dashboard</p>
+    <div class="notice">🔒 This page is configured for the owner's Google account only.</div>
+    <button class="google" id="loginBtn">Continue with Google</button>
+    <div class="owner">Authorized account: sami232556@gmail.com</div>
+    <div id="denied" class="denied hidden">Access denied. This Google account is not authorized.</div>
+  </div>
+</section>
+
+<section id="app" class="page">
+  <div id="home">
+    <div class="hero"><h2>SELECT <b>PLATFORM</b></h2><p>Choose a service for the local visual simulation.</p></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="inputPanel" class="hidden">
+    <button class="back" onclick="goHome()">← BACK</button>
+    <div class="panel">
+      <div id="pIcon" class="bigicon">f</div>
+      <h2 id="pName">Facebook</h2>
+      <p id="pHelp"></p>
+      <label id="pLabel" class="label"></label>
+      <input id="target" autocomplete="off">
+      <p style="font-size:9px">Demo/public identifier only. Never enter passwords or OTPs.</p>
+      <button class="action" onclick="start()">ACCESS →</button>
+    </div>
+  </div>
+
+  <div id="scanPanel" class="hidden">
+    <div class="scanner">
+      <div id="sIcon" class="bigicon"></div>
+      <h2 id="sTitle"></h2>
+      <p>Processing visual simulation</p>
+      <div class="ring"><strong id="pct">0%</strong></div>
+      <div class="progress"><div id="bar" class="bar"></div></div>
+      <div id="clock" class="timer">09:00</div>
+      <div id="terminal" class="terminal"></div>
+      <div class="media">
+        <div class="mediaRow"><span>Messages processed</span><b id="msgs">0</b></div>
+        <div class="mediaRow"><span>Videos indexed</span><b id="vids">0</b></div>
+        <div class="mediaRow"><span>Images indexed</span><b id="imgs">0</b></div>
+        <div class="mediaRow"><span>Demo files prepared</span><b id="files">0</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultPanel" class="hidden">
+    <div class="result">
+      <div class="success">✓</div>
+      <h2 id="rTitle">Simulation Complete</h2>
+      <p id="rText"></p>
+      <div class="fakevideo"><div class="play">▶</div><small>FICTIONAL DEMO PREVIEW</small></div>
+      <button class="action" onclick="goHome()">RETURN HOME</button>
+    </div>
+  </div>
+</section>
+
+<footer>GHOST VIP • PRIVATE VISUAL SIMULATION • NO REAL ACCOUNT ACCESS</footer>
+
+<!--
+  IMPORTANT SETUP:
+  1) Create a Google OAuth 2.0 Web Client ID in Google Cloud Console.
+  2) Replace YOUR_GOOGLE_CLIENT_ID below.
+  3) Add your website domain to the OAuth client's Authorized JavaScript origins.
+  This browser-only gate is NOT a substitute for server-side authorization.
+-->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+const OWNER_EMAIL="sami232556@gmail.com";
+const GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+
+const platforms=[
+ ["Facebook","f","Profile Link","https://facebook.com/demo"],
+ ["WhatsApp","◔","WhatsApp Number","+92 300 0000000"],
+ ["YouTube","▶","Channel Link","https://youtube.com/@demo"],
+ ["Instagram","◎","Username","@demo"],
+ ["TikTok","♪","Username","@demo"],
+ ["Telegram","➤","Username","@demo"],
+ ["Snapchat","👻","Username","demo_user"],
+ ["X","𝕏","Profile Link","https://x.com/demo"],
+ ["Gmail","✉","Email Address","demo@example.com"]
+];
+
+let selected=null, t=null, elapsed=0;
+
+function initGoogle(){
+ if(GOOGLE_CLIENT_ID.startsWith("YOUR_")) return;
+ google.accounts.id.initialize({
+   client_id:GOOGLE_CLIENT_ID,
+   callback:credentialResponse
+ });
+ google.accounts.id.renderButton(document.getElementById("loginBtn"),{
+   theme:"outline",size:"large",width:280,text:"continue_with"
+ });
+}
+function parseJwt(token){
+ const b=token.split(".")[1].replace(/-/g,"+").replace(/_/g,"/");
+ return JSON.parse(decodeURIComponent(atob(b).split("").map(c=>"%"+("00"+c.charCodeAt(0).toString(16)).slice(-2)).join("")));
+}
+function credentialResponse(response){
+ try{
+   const data=parseJwt(response.credential);
+   if((data.email||"").toLowerCase()===OWNER_EMAIL.toLowerCase()){
+     document.getElementById("gate").classList.add("hidden");
+     document.getElementById("app").style.display="block";
+   }else{
+     document.getElementById("denied").classList.remove("hidden");
+   }
+ }catch(e){document.getElementById("denied").classList.remove("hidden")}
+}
+document.getElementById("loginBtn").onclick=()=>{
+ if(GOOGLE_CLIENT_ID.startsWith("YOUR_")){
+   alert("Google Sign-In setup is required first. Replace YOUR_GOOGLE_CLIENT_ID in this HTML with your Google OAuth Web Client ID.");
+ }
+};
+
+function buildGrid(){
+ document.getElementById("grid").innerHTML=platforms.map((p,i)=>
+ `<button class="platform" onclick="choose(${i})"><div class="icon">${p[1]}</div>${p[0]}</button>`).join("");
+}
+function choose(i){
+ selected=platforms[i];
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("resultPanel").classList.add("hidden");
+ document.getElementById("scanPanel").classList.add("hidden");
+ document.getElementById("inputPanel").classList.remove("hidden");
+ pIcon.textContent=selected[1];pName.textContent=selected[0];
+ pLabel.textContent=selected[2];pHelp.textContent="Enter demo information for this visual simulation.";
+ target.placeholder=selected[3];target.value="";
+}
+function goHome(){
+ if(t)clearInterval(t);
+ inputPanel.classList.add("hidden");scanPanel.classList.add("hidden");resultPanel.classList.add("hidden");home.classList.remove("hidden");
+}
+function start(){
+ if(!target.value.trim()){alert("Enter demo information first.");return}
+ inputPanel.classList.add("hidden");scanPanel.classList.remove("hidden");
+ sIcon.textContent=selected[1];sTitle.textContent=selected[0].toUpperCase()+" GHOST ENGINE";
+ elapsed=0;terminal.innerHTML="";bar.style.width="0%";pct.textContent="0%";clock.textContent="09:00";
+ msgs.textContent=vids.textContent=imgs.textContent=files.textContent="0";
+ if(t)clearInterval(t);t=setInterval(tick,1000);
+}
+function tick(){
+ elapsed++;
+ const total=540, remain=total-elapsed, percent=Math.floor(elapsed/total*100);
+ bar.style.width=percent+"%";pct.textContent=percent+"%";
+ clock.textContent=String(Math.floor(remain/60)).padStart(2,"0")+":"+String(remain%60).padStart(2,"0");
+ msgs.textContent=(elapsed*7+Math.floor(Math.random()*9)).toLocaleString();
+ vids.textContent=(elapsed*2+Math.floor(Math.random()*4)).toLocaleString();
+ imgs.textContent=(elapsed*5+Math.floor(Math.random()*7)).toLocaleString();
+ files.textContent=(elapsed+Math.floor(Math.random()*3)).toLocaleString();
+ if(elapsed%7===1){
+   const lines=[
+    "Initializing visual engine...",
+    "Reading demo target...",
+    "Creating fictional session...",
+    "Preparing message index...",
+    "Rendering media queue...",
+    "Generating video preview...",
+    "Updating activity timeline...",
+    "Loading local demo assets...",
+    "Synchronizing visual counters...",
+    "Finalizing presentation layer..."
+   ];
+   const d=document.createElement("div");d.textContent="[GHOST] "+lines[Math.floor(Math.random()*lines.length)];
+   terminal.appendChild(d);terminal.scrollTop=terminal.scrollHeight;
+ }
+ if(elapsed>=total){clearInterval(t);finish()}
+}
+function finish(){
+ scanPanel.classList.add("hidden");resultPanel.classList.remove("hidden");
+ rTitle.textContent=selected[0]+" — Complete";
+ rText.textContent="The visual simulation finished. No real account, messages, files or private data were accessed.";
+}
+buildGrid();
+window.addEventListener("load",initGoogle);
+</script>
+</body>
+</html>
